@@ -1,153 +1,16 @@
-
-<!DOCTYPE html>
-<html lang="zh-TW">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>音檔下載 — 專屬認證頁</title>
-<link href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.44.0/tabler-icons.min.css" rel="stylesheet">
-<style>
-  * { box-sizing: border-box; margin: 0; padding: 0; }
-  body {
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: #f5f0e8;
-    font-family: 'Georgia', 'Noto Serif TC', serif;
-    padding: 2rem;
-  }
-  .card {
-    background: #fff;
-    border-radius: 4px;
-    width: 100%;
-    max-width: 420px;
-    overflow: hidden;
-    border: 1px solid #e0d8cc;
-  }
-  .header {
-    background: #2c2416;
-    padding: 2.5rem 2rem 2rem;
-    text-align: center;
-  }
-  .waveform {
-    display: flex;
-    align-items: flex-end;
-    justify-content: center;
-    gap: 3px;
-    height: 36px;
-    margin-bottom: 1.25rem;
-  }
-  .waveform span {
-    width: 4px;
-    background: #c8a96e;
-    border-radius: 2px;
-    animation: wave 1.4s ease-in-out infinite;
-    opacity: 0.7;
-  }
-  @keyframes wave {
-    0%, 100% { transform: scaleY(0.4); }
-    50% { transform: scaleY(1); }
-  }
-  .header h1 { color: #f5e8cc; font-size: 1.2rem; font-weight: 400; letter-spacing: 0.06em; margin-bottom: 0.25rem; }
-  .header p { color: #a08c6e; font-size: 0.78rem; letter-spacing: 0.05em; }
-  .body { padding: 2rem; }
-  .label { font-size: 0.72rem; color: #8a7560; letter-spacing: 0.08em; margin-bottom: 0.5rem; display: block; }
-  .select-wrap { position: relative; margin-bottom: 1.25rem; }
-  select {
-    width: 100%; padding: 0.7rem 1rem; font-size: 0.9rem;
-    font-family: inherit; color: #2c2416; background: #faf7f2;
-    border: 1px solid #d5c9b5; border-radius: 3px; appearance: none; cursor: pointer;
-  }
-  select:focus { outline: 2px solid #c8a96e; outline-offset: 2px; }
-  .select-arrow { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); pointer-events: none; color: #8a7560; font-size: 14px; }
-  .input-wrap { position: relative; margin-bottom: 1.5rem; }
-  input[type="text"] {
-    width: 100%; padding: 0.7rem 2.8rem 0.7rem 1rem; font-size: 1rem;
-    font-family: inherit; letter-spacing: 0.12em; color: #2c2416;
-    background: #faf7f2; border: 1px solid #d5c9b5; border-radius: 3px; transition: border-color 0.2s;
-  }
-  input[type="text"]:focus { outline: 2px solid #c8a96e; outline-offset: 2px; border-color: #c8a96e; }
-  input[type="text"].error { border-color: #b34a3a; }
-  .input-icon { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); color: #a08c6e; font-size: 18px; pointer-events: none; }
-  .btn {
-    width: 100%; padding: 0.8rem; background: #2c2416; color: #f5e8cc;
-    border: none; border-radius: 3px; font-family: inherit; font-size: 0.9rem;
-    letter-spacing: 0.08em; cursor: pointer; transition: background 0.2s;
-  }
-  .btn:hover { background: #3e3320; }
-  .btn:active { transform: scale(0.99); }
-  .error-msg { color: #b34a3a; font-size: 0.8rem; margin-top: -1rem; margin-bottom: 1rem; display: none; }
-  .success-panel { display: none; text-align: center; padding: 1.5rem 0 0.5rem; }
-  .success-icon {
-    width: 52px; height: 52px; background: #f0ebe0; border-radius: 50%;
-    display: flex; align-items: center; justify-content: center;
-    margin: 0 auto 1rem; color: #2c2416; font-size: 22px;
-  }
-  .success-panel h2 { font-size: 1rem; color: #2c2416; font-weight: 400; margin-bottom: 0.4rem; letter-spacing: 0.05em; }
-  .success-panel p { font-size: 0.8rem; color: #8a7560; margin-bottom: 1.5rem; }
-  .download-btn {
-    display: inline-flex; align-items: center; gap: 8px;
-    padding: 0.75rem 1.5rem; background: #c8a96e; color: #2c2416;
-    text-decoration: none; border-radius: 3px; font-family: inherit;
-    font-size: 0.88rem; letter-spacing: 0.06em; transition: background 0.2s;
-  }
-  .download-btn:hover { background: #b8994e; }
-  .footer { padding: 1rem 2rem; border-top: 1px solid #ede8e0; text-align: center; font-size: 0.72rem; color: #b0a090; letter-spacing: 0.04em; }
-</style>
-</head>
-<body>
-<div class="card">
-  <div class="header">
-    <div class="waveform" id="waveform"></div>
-    <h1>音檔下載專區</h1>
-    <p>限購買者專屬 · MEMBERS ONLY</p>
-  </div>
-  <div class="body">
-    <div id="auth-form">
-      <label class="label" for="product-select">選擇購買的材料包</label>
-      <div class="select-wrap">
-        <select id="product-select">
-          <option value="">— 請選擇您購買的商品 —</option>
-          <option value="pack-a">福笑 試用版</option>
-          <option value="pack-b">福笑 正式版</option>
-          <option value="pack-c">動物列車 正式版</option>
-        </select>
-        <i class="ti ti-chevron-down select-arrow" aria-hidden="true"></i>
-      </div>
-      <label class="label" for="password-input">驗證碼</label>
-      <div class="input-wrap">
-        <input type="text" id="password-input" placeholder="請輸入材料包上的驗證碼" maxlength="20" autocomplete="off">
-        <i class="ti ti-lock input-icon" aria-hidden="true"></i>
-      </div>
-      <p class="error-msg" id="error-msg">
-        <i class="ti ti-alert-circle" style="vertical-align:-2px; margin-right:4px;"></i>
-        驗證碼不正確，請再確認一次。
-      </p>
-      <button class="btn" onclick="checkAuth()">驗證並下載音檔</button>
-    </div>
-    <div class="success-panel" id="success-panel">
-      <div class="success-icon"><i class="ti ti-check" aria-hidden="true"></i></div>
-      <h2>驗證成功！</h2>
-      <p id="success-product-name">福笑 試用版 的音檔</p>
-      <a href="#" id="download-link" class="download-btn">
-        <i class="ti ti-download" aria-hidden="true"></i>
+<!DOCTYPE html><html lang="zh-TW"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>音檔下載 — 專屬認證頁</title><link href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.44.0/tabler-icons.min.css" rel="stylesheet"><style>  * { box-sizing: border-box; margin: 0; padding: 0; }  body {    min-height: 100vh;    display: flex;    align-items: center;    justify-content: center;    /* 使用滿版森林底圖 */    background-image: url('https://images.unsplash.com/photo-1473448912268-202a19fbaf6d?q=80&w=2600&auto=format&fit=crop');    background-size: cover;    background-position: center;    background-repeat: no-repeat;    background-attachment: fixed; /* 讓底圖固定，營造層次感 */    font-family: 'Georgia', 'Noto Serif TC', serif;    padding: 2rem;  }  .card {    /* 增加半透明效果，讓底圖若隱若現 */    background: rgba(255, 255, 255, 0.9);     backdrop-filter: blur(5px); /* 加入毛玻璃效果，提升質感 */    border-radius: 8px; /* 稍微增加圓角 */    width: 100%;    max-width: 420px;    overflow: hidden;    border: 1px solid rgba(211, 222, 214, 0.5); /* 調整邊框顏色與透明度 */    box-shadow: 0 10px 25px rgba(0,0,0,0.1); /* 加入陰影，讓卡片更立體 */  }  .header {    background: rgba(30, 53, 37, 0.95); /* 深森林綠也加上一點透明度 */    padding: 2.5rem 2rem 2rem;    text-align: center;  }  .waveform {    display: flex;    align-items: flex-end;    justify-content: center;    gap: 3px;    height: 36px;    margin-bottom: 1.25rem;  }  .waveform span {    width: 4px;    background: #a3b899; /* 波形改為柔和的莫蘭迪綠 */    border-radius: 2px;    animation: wave 1.4s ease-in-out infinite;    opacity: 0.8;  }  @keyframes wave {    0%, 100% { transform: scaleY(0.4); }    50% { transform: scaleY(1); }  }  .header h1 { color: #f4f7f4; font-size: 1.2rem; font-weight: 400; letter-spacing: 0.06em; margin-bottom: 0.25rem; }  .header p { color: #879f84; font-size: 0.78rem; letter-spacing: 0.05em; }  .body { padding: 2rem; }  .label { font-size: 0.72rem; color: #5a6e5f; letter-spacing: 0.08em; margin-bottom: 0.5rem; display: block; }  .select-wrap { position: relative; margin-bottom: 1.25rem; }  select {    width: 100%; padding: 0.7rem 1rem; font-size: 0.9rem;    font-family: inherit; color: #1e3525; background: #fafcfa;    border: 1px solid #c2d1c6; border-radius: 3px; appearance: none; cursor: pointer;  }  select:focus { outline: 2px solid #6b8e23; outline-offset: 2px; } /* 焦點框改為橄欖綠 */  .select-arrow { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); pointer-events: none; color: #728577; font-size: 14px; }  .input-wrap { position: relative; margin-bottom: 1.5rem; }  input[type="text"] {    width: 100%; padding: 0.7rem 2.8rem 0.7rem 1rem; font-size: 1rem;    font-family: inherit; letter-spacing: 0.12em; color: #1e3525;    background: #fafcfa; border: 1px solid #c2d1c6; border-radius: 3px; transition: border-color 0.2s;  }  input[type="text"]:focus { outline: 2px solid #6b8e23; outline-offset: 2px; border-color: #6b8e23; }  input[type="text"].error { border-color: #b34a3a; }  .input-icon { position: absolute; right: 12px; top: 50%; transform: translateY(-50%); color: #879f84; font-size: 18px; pointer-events: none; }  .btn {    width: 100%; padding: 0.8rem; background: #1e3525; color: #f4f7f4;    border: none; border-radius: 3px; font-family: inherit; font-size: 0.9rem;    letter-spacing: 0.08em; cursor: pointer; transition: background 0.2s;  }  .btn:hover { background: #2b4733; }  .btn:active { transform: scale(0.99); }  .error-msg { color: #b34a3a; font-size: 0.8rem; margin-top: -1rem; margin-bottom: 1rem; display: none; }  .success-panel { display: none; text-align: center; padding: 1.5rem 0 0.5rem; }  .success-icon {    width: 52px; height: 52px; background: #eef3ef; border-radius: 50%;    display: flex; align-items: center; justify-content: center;    margin: 0 auto 1rem; color: #1e3525; font-size: 22px;  }  .success-panel h2 { font-size: 1rem; color: #1e3525; font-weight: 400; margin-bottom: 0.4rem; letter-spacing: 0.05em; }  .success-panel p { font-size: 0.8rem; color: #5a6e5f; margin-bottom: 1.5rem; }  .download-btn {    display: inline-flex; align-items: center; gap: 8px;    padding: 0.75rem 1.5rem; background: #6b8e23; color: #ffffff; /* 下載按鈕改為明亮的植物深綠配白字 */    text-decoration: none; border-radius: 3px; font-family: inherit;    font-size: 0.88rem; letter-spacing: 0.06em; transition: background 0.2s;  }  .download-btn:hover { background: #55721a; }  .footer { padding: 1rem 2rem; border-top: 1px solid #e2ebe4; text-align: center; font-size: 0.72rem; color: #9aa89d; letter-spacing: 0.04em; }</style></head><body><div class="card">  <div class="header">    <div class="waveform" id="waveform"></div>    <h1>音檔下載專區</h1>    <p>限購買者專屬 · MEMBERS ONLY</p>  </div>  <div class="body">    <div id="auth-form">      <label class="label" for="product-select">選擇購買的材料包</label>      <div class="select-wrap">        <select id="product-select">          <option value="">— 請選擇您購買的商品 —</option>          <option value="pack-a">福笑 試用版</option>          <option value="pack-b">福笑 正式版</option>          <option value="pack-c">動物列車 正式版</option>        </select>        <i class="ti ti-chevron-down select-arrow" aria-hidden="true"></i>      </div>      <label class="label" for="password-input">驗證碼</label>      <div class="input-wrap">        <input type="text" id="password-input" placeholder="請輸入材料包上的驗證碼" maxlength="20" autocomplete="off">        <i class="ti ti-lock input-icon" aria-hidden="true"></i>      </div>      <p class="error-msg" id="error-msg">        <i class="ti ti-alert-circle" style="vertical-align:-2px; margin-right:4px;"></i>        驗證碼不正確，請再確認一次。      </p>      <button class="btn" onclick="checkAuth()">驗證並下載音檔</button>    </div>    <div class="success-panel" id="success-panel">      <div class="success-icon"><i class="ti ti-check" aria-hidden="true"></i></div>      <h2>驗證成功！</h2>      <p id="success-product-name">福笑 試用版 的音檔</p>      <a href="#" id="download-link" class="download-btn">        <i class="ti ti-download" aria-hidden="true"></i>
         點此下載音檔
       </a>
     </div>
   </div>
   <div class="footer">購買者限定內容 · 請勿轉發或分享連結</div>
 </div>
+
 <script>
-// =====================================================
-// 請在這裡填入您的設定
-// =====================================================
 const PRODUCTS = {
   "pack-a": {
     name: "福笑 試用版",
-    // 每組驗證碼對應一份材料包（可依販售數量增加）
     passwords: ["AFU-0001"],
-    // 在 Google Drive 複製分享連結後貼在這裡
     driveUrl: "https://drive.google.com/file/d/1L-YzKYs9RvgXUenqz4fY4LRcZl7rGzA6/view?usp=sharing"
   },
   "pack-b": {
@@ -161,8 +24,7 @@ const PRODUCTS = {
     driveUrl: "https://drive.google.com/file/d/YOUR_FILE_ID_C/view"
   }
 };
-// =====================================================
- 
+
 const heights = [8,14,22,30,36,30,24,18,12,16,24,32,28,20,14,10,18,26,34,30,22];
 const waveform = document.getElementById('waveform');
 heights.forEach((h, i) => {
@@ -171,16 +33,16 @@ heights.forEach((h, i) => {
   span.style.animationDelay = (i * 0.07) + 's';
   waveform.appendChild(span);
 });
- 
+
 function checkAuth() {
   const productKey = document.getElementById('product-select').value;
   const code = document.getElementById('password-input').value.trim().toUpperCase();
   const errorMsg = document.getElementById('error-msg');
   const input = document.getElementById('password-input');
- 
+
   errorMsg.style.display = 'none';
   input.classList.remove('error');
- 
+
   if (!productKey) {
     errorMsg.textContent = '請先選擇您購買的材料包。';
     errorMsg.style.display = 'block';
@@ -192,7 +54,7 @@ function checkAuth() {
     input.classList.add('error');
     return;
   }
- 
+
   const product = PRODUCTS[productKey];
   if (product.passwords.includes(code)) {
     document.getElementById('auth-form').style.display = 'none';
@@ -207,10 +69,10 @@ function checkAuth() {
     input.focus();
   }
 }
- 
+
 document.getElementById('password-input').addEventListener('keydown', e => {
   if (e.key === 'Enter') checkAuth();
 });
 </script>
-</body>
-</html>
+
+</body></html>
