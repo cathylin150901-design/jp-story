@@ -1,1 +1,150 @@
 
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>音樂檔案數位認證書</title>
+    <style>
+        :root {
+            --bg-color: #0d0e15;
+            --card-bg: #1a1c28;
+            --text-color: #f0f2f5;
+            --accent-color: #ffbd59;
+            --muted-text: #8a8f98;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .certificate-card {
+            background: var(--card-bg);
+            border: 2px solid var(--accent-color);
+            border-radius: 16px;
+            padding: 40px;
+            max-width: 500px;
+            width: 100%;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            text-align: center;
+            box-sizing: border-box;
+        }
+
+        .badge {
+            font-size: 3rem;
+            margin-bottom: 10px;
+        }
+
+        h1 {
+            color: var(--accent-color);
+            font-size: 1.8rem;
+            margin-top: 0;
+            letter-spacing: 2px;
+        }
+
+        .subtitle {
+            color: var(--muted-text);
+            font-size: 0.9rem;
+            margin-bottom: 30px;
+            text-transform: uppercase;
+        }
+
+        .info-section {
+            text-align: left;
+            background: rgba(255, 255, 255, 0.03);
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+        }
+
+        .info-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 12px;
+            font-size: 0.95rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            padding-bottom: 8px;
+        }
+
+        .info-row:last-child {
+            border-bottom: none;
+            padding-bottom: 0;
+            margin-bottom: 0;
+        }
+
+        .label {
+            color: var(--muted-text);
+        }
+
+        .value {
+            font-weight: bold;
+            word-break: break-all;
+            text-align: right;
+            padding-left: 10px;
+        }
+
+        audio {
+            width: 100%;
+            margin-top: 15px;
+            border-radius: 8px;
+        }
+
+        .footer {
+            margin-top: 30px;
+            font-size: 0.8rem;
+            color: var(--muted-text);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="certificate-card">
+        <div class="badge">🛡️</div>
+        <h1>數位音樂認證書</h1>
+        <p class="subtitle">Official Audio Certificate</p>
+
+        <div class="info-section">
+            <div class="info-row">
+                <span class="label">歌曲名稱：</span>
+                <span class="value">霓虹深夜 (Neon Late Night)</span>
+            </div>
+            <div class="info-row">
+                <span class="label">創作者 / 擁有者：</span>
+                <span class="value">Your Name / 你的名字</span>
+            </div>
+            <div class="info-row">
+                <span class="label">認證編號：</span>
+                <span class="value" style="color: var(--accent-color);">AUDIO-2026-88942</span>
+            </div>
+            <div class="info-row">
+                <span class="label">檔案雜湊值 (Hash)：</span>
+                <span class="value" style="font-family: monospace; font-size: 0.8rem;">e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855</span>
+            </div>
+            <div class="info-row">
+                <span class="label">發行日期：</span>
+                <span class="value">2026-05-15</span>
+            </div>
+        </div>
+
+        <p style="font-size: 0.9rem; color: var(--muted-text); text-align: left; margin-bottom: 5px;">🎵 認證音訊試聽：</p>
+        <audio controls>
+            <source src="audio/finalized/neon-late-night.mp3" type="audio/mpeg">
+            您的瀏覽器不支援此音訊播放器。
+        </audio>
+
+        <div class="footer">
+            本網頁由 GitHub Pages 託管提供安全認證<br>
+            © 2026 All Rights Reserved.
+        </div>
+    </div>
+
+</body>
+</html>
